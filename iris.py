@@ -9,7 +9,7 @@ model = pickle.load(open("iris_random_forest.pkl", "rb"))
 st.set_page_config(
     page_title="Iris Flower Prediction",
     page_icon="🌸",
-    layout="centered"
+    
 )
 
 # ---------- CUSTOM CSS ----------
@@ -85,3 +85,4 @@ if predict:
 
 # ---------- FOOTER ----------
 st.markdown('<div class="footer">Developed using Random Forest Algorithm 🌳</div>', unsafe_allow_html=True)
+
