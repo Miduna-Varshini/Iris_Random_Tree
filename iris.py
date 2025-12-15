@@ -5,54 +5,63 @@ import numpy as np
 # Load model
 model = pickle.load(open("iris_random_forest.pkl", "rb"))
 
-# Page configuration
+# Page config
 st.set_page_config(
     page_title="Iris Flower Prediction",
     page_icon="🌸",
-    
+    layout="centered"
 )
 
 # ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
-body {
-    background-color: #f4f6f9;
+/* Remove default white containers */
+.block-container {
+    padding-top: 2rem;
 }
 
+/* Background */
+body {
+    background-color: #0E1117;
+}
+
+/* Title */
 .main-title {
     text-align: center;
-    color: #6A1B9A;
-    font-size: 38px;
+    color: #9C27B0;
+    font-size: 40px;
     font-weight: bold;
 }
 
 .sub-title {
     text-align: center;
-    color: #555;
+    color: #9E9E9E;
     font-size: 18px;
+    margin-bottom: 30px;
 }
 
-.card {
-    background-color: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
-    margin-top: 20px;
+/* Input labels */
+label {
+    color: #E0E0E0 !important;
+    font-size: 16px;
 }
 
-.predict-btn button {
-    background-color: #6A1B9A;
+/* Buttons */
+.stButton>button {
+    background-color: #1f6feb;
     color: white;
     font-size: 18px;
-    border-radius: 10px;
-    height: 3em;
+    border-radius: 12px;
+    padding: 10px 20px;
     width: 100%;
 }
 
-.footer {
-    text-align: center;
-    color: #777;
-    margin-top: 30px;
+/* Success box */
+.stSuccess {
+    background-color: #163d2b !important;
+    color: #7CFFB2 !important;
+    border-radius: 12px;
+    font-size: 18px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -61,28 +70,17 @@ body {
 st.markdown('<div class="main-title">🌸 Iris Flower Prediction</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-title">Random Forest Classification with Streamlit</div>', unsafe_allow_html=True)
 
-# ---------- INPUT CARD ----------
-st.markdown('<div class="card">', unsafe_allow_html=True)
+# ---------- INPUTS ----------
+sepal_length = st.number_input("🌿 Sepal Length (cm)", min_value=0.0, step=0.1)
+sepal_width  = st.number_input("🌿 Sepal Width (cm)", min_value=0.0, step=0.1)
+petal_length = st.number_input("🌺 Petal Length (cm)", min_value=0.0, step=0.1)
+petal_width  = st.number_input("🌺 Petal Width (cm)", min_value=0.0, step=0.1)
 
-sepal_length = st.number_input("🌿 Sepal Length (cm)", 0.0, step=0.1)
-sepal_width  = st.number_input("🌿 Sepal Width (cm)", 0.0, step=0.1)
-petal_length = st.number_input("🌺 Petal Length (cm)", 0.0, step=0.1)
-petal_width  = st.number_input("🌺 Petal Width (cm)", 0.0, step=0.1)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ---------- PREDICT BUTTON ----------
-st.markdown('<div class="predict-btn">', unsafe_allow_html=True)
-predict = st.button("🔍 Predict Flower")
-st.markdown('</div>', unsafe_allow_html=True)
-
-# ---------- RESULT ----------
-if predict:
+# ---------- PREDICT ----------
+if st.button("🔍 Predict Flower"):
     input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])
-    result = model.predict(input_data)
-
-    st.success(f"🌼 **Predicted Iris Species:** {result[0]}")
+    prediction = model.predict(input_data)
+    st.success(f"🌼 Predicted Iris Species: {prediction[0]}")
 
 # ---------- FOOTER ----------
-st.markdown('<div class="footer">Developed using Random Forest Algorithm 🌳</div>', unsafe_allow_html=True)
-
+st.caption("Developed using Random Forest 🌳 | Streamlit App")
